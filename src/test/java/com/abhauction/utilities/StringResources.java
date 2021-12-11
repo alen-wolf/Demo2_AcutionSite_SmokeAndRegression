@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class StringResources {
 
+    public static String loggedIn = "ERROR: User is still logged In after log out!";
+
     public static String error404(String error){ return error + " page element not found!"; }
 
     public static String formInput(String error){ return "Form validation error: " + error;}

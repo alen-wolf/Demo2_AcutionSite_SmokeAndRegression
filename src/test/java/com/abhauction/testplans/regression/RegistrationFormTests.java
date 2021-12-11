@@ -76,7 +76,7 @@ public class RegistrationFormTests {
     public static void existingUserInput() {
         homePage.goToAccountCreation();
         registrationPage.registerUser();
-        registrationPage.fillInRegistrationform("Alenn","Vukk*","alennvukk",testUser.getEmailAndPassword());
+        registrationPage.fillInRegistrationform("Alenn","Vukk*","alenn",testUser.getEmailAndPassword());
         registrationPage.registerUser();
         Assert.assertTrue(registrationPage.userFailedToRegister(), StringResources.formInput("registered existing user!"));
     }

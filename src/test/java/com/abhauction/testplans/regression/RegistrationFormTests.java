@@ -2,6 +2,8 @@ package com.abhauction.testplans.regression;
 
 import com.abhauction.pageobjects.HomePage;
 import com.abhauction.pageobjects.RegistrationPage;
+import com.abhauction.utilities.StringResources;
+import com.abhauction.utilities.UserAccounts;
 import com.abhauction.utilities.Utils;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebDriver;
@@ -20,9 +22,8 @@ public class RegistrationFormTests {
     public static HomePage homePage = new HomePage(driver);
     public static RegistrationPage registrationPage = new RegistrationPage(driver);
 
-
-    //initializing SELENIUM Actions
-    public static Actions actions = new Actions(driver);
+    //create new user
+    public static UserAccounts testUser = new UserAccounts(StringResources.randomEmail());
 
 
     @BeforeSuite
@@ -41,12 +42,43 @@ public class RegistrationFormTests {
     public static void emptyInput() {
         homePage.goToAccountCreation();
         registrationPage.registerUser();
-        Assert.assertTrue(registrationPage.getPageTitle(),"Registration page not found!");
+        Assert.assertTrue(registrationPage.getPageTitle(), StringResources.error404("Registration title"));
     }
 
     @Test(testName = "Valid Input form submission")
     public static void validInput() {
         homePage.goToAccountCreation();
+        registrationPage.registerUser();
+        registrationPage.fillInRegistrationform(testUser.getFirstName(),testUser.getLastName(),testUser.getEmailAndPassword(),testUser.getEmailAndPassword());
+        registrationPage.registerUser();
+        Assert.assertTrue(registrationPage.userIsRegistered(), StringResources.error404("Successful registration"));
+    }
+
+    @Test(testName = "Invalid name input form submission")
+    public static void invalidNameInput() {
+        homePage.goToAccountCreation();
+        registrationPage.registerUser();
+        registrationPage.fillInRegistrationform("123&*#A","V122*",testUser.getEmailAndPassword(),testUser.getEmailAndPassword());
+        registrationPage.registerUser();
+        Assert.assertFalse(registrationPage.userIsRegistered(), StringResources.formInput("registered invalid name!"));
+    }
+
+    @Test(testName = "Invalid email input form submission")
+    public static void invalidEmailInput() {
+        homePage.goToAccountCreation();
+        registrationPage.registerUser();
+        registrationPage.fillInRegistrationform("Alenn","Vukk*",testUser.getEmailAndPassword()+"#_",testUser.getEmailAndPassword());
+        registrationPage.registerUser();
+        Assert.assertFalse(registrationPage.userIsRegistered(), StringResources.formInput("registered invalid email!"));
+    }
+
+    @Test(testName = "Register existing user")
+    public static void existingUserInput() {
+        homePage.goToAccountCreation();
+        registrationPage.registerUser();
+        registrationPage.fillInRegistrationform("Alenn","Vukk*","alennvukk",testUser.getEmailAndPassword());
+        registrationPage.registerUser();
+        Assert.assertTrue(registrationPage.userFailedToRegister(), StringResources.formInput("registered existing user!"));
     }
 
     @AfterSuite

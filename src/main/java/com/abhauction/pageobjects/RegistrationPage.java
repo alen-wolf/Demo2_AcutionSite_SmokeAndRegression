@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+
 public class RegistrationPage extends PageObject{
 
     @FindBy(css = "#root > div > form > h1")
@@ -37,4 +38,15 @@ public class RegistrationPage extends PageObject{
     public void registerUser(){this.registerButton.click();}
 
     public boolean getPageTitle(){return this.pageTitle.isDisplayed();}
+
+    public void fillInRegistrationform(String name, String lastName, String email, String password){
+        this.nameInput.sendKeys(name);
+        this.lastNameInput.sendKeys(lastName);
+        this.emailInput.sendKeys(email+"@mail.com");
+        this.passwordInput.sendKeys(password);
+    }
+
+    public boolean userIsRegistered(){return this.successfulRegistration.isDisplayed();}
+
+    public boolean userFailedToRegister(){return this.failedToRegister.isDisplayed();}
 }

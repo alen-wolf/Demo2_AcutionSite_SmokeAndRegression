@@ -2,11 +2,8 @@ package com.abhauction.testplans.regression;
 
 import com.abhauction.pageobjects.HomePage;
 import com.abhauction.pageobjects.LogInPage;
-import com.abhauction.pageobjects.RegistrationPage;
 import com.abhauction.utilities.StringResources;
-import com.abhauction.utilities.UserAccounts;
 import com.abhauction.utilities.Utils;
-import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -24,9 +21,6 @@ public class LogInFormTests {
     public static HomePage homePage = new HomePage(driver);
     public static LogInPage logInPage = new LogInPage(driver);
 
-    //create new user
-    public static UserAccounts testUser = new UserAccounts(StringResources.randomEmail());
-
     @BeforeSuite
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", Utils.CHROME_DRIVER_LOCATION);
@@ -41,43 +35,51 @@ public class LogInFormTests {
 
     @Test(testName = "Log in valid user")
     public static void validUserInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToLogIn();
-        logInPage.fillInlogInForm("alenn","12345");
+        Assert.assertTrue(logInPage.loginFormDisplay(),StringResources.error404("LogIn form"));
+        logInPage.fillInlogInForm(StringResources.existingEmail,StringResources.standardPass);
         logInPage.logInUser();
-        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Logged In navbar name"));
+        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Navbar username"));
+        logInPage.logOutUser();
     }
 
     @Test(testName = "Log in invalid user")
     public static void invalidUserInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToLogIn();
-        logInPage.fillInlogInForm(testUser.getEmailAndPassword(),testUser.getEmailAndPassword());
+        Assert.assertTrue(logInPage.loginFormDisplay(),StringResources.error404("LogIn form"));
+        logInPage.fillInlogInForm(StringResources.unknownEmail,StringResources.standardPass);
         logInPage.logInUser();
-        Assert.assertTrue(logInPage.userFailedToLogIn(),StringResources.formInput("non existing user logged in!"));
+        Assert.assertTrue(logInPage.userFailedToLogIn(),StringResources.formInput(StringResources.invalidLogIn));
     }
 
     @Test(testName = "Log in wrong password")
     public static void invalidPasswordInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToLogIn();
-        logInPage.fillInlogInForm("alenn","1111");
+        Assert.assertTrue(logInPage.loginFormDisplay(),StringResources.error404("LogIn form"));
+        logInPage.fillInlogInForm(StringResources.existingEmail,StringResources.badPass);
         logInPage.logInUser();
-        Assert.assertTrue(logInPage.userFailedToLogIn(),StringResources.formInput("logged in with wrong password!"));
+        Assert.assertTrue(logInPage.userFailedToLogIn(),StringResources.formInput("wrong password accepted!"));
     }
 
     @Test(testName = "Remember me button and log Out")
-    public static void rememberLoginInput() throws InterruptedException {
+    public static void rememberLoginInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToLogIn();
-        logInPage.fillInlogInForm("alenn","12345");
+        Assert.assertTrue(logInPage.loginFormDisplay(),StringResources.error404("LogIn form"));
+        logInPage.fillInlogInForm(StringResources.existingEmail,StringResources.standardPass);
         logInPage.logInUser();
         logInPage.rememberUser();
-        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Logged In navbar name"));
+        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Navbar username"));
         logInPage.logOutUser();
-        Thread.sleep(3000);
         Assert.assertTrue(homePage.userLoggedOut(),StringResources.loggedIn);
         homePage.goToLogIn();
-        Assert.assertEquals(logInPage.getEmailInput(),"alenn@mail.com",StringResources.formInput("wrong email!"));
-        Assert.assertEquals(logInPage.getPasswordInput(),"12345",StringResources.formInput("wrong password!"));
+        Assert.assertEquals(logInPage.getEmailInput(),StringResources.existingEmail,StringResources.formInput("unmatching email!"));
+        Assert.assertEquals(logInPage.getPasswordInput(),StringResources.standardPass,StringResources.formInput("unmatching password!"));
         logInPage.logInUser();
-        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Logged In navbar name"));
+        Assert.assertTrue(logInPage.userIsLoggedIn(),StringResources.error404("Navbar username"));
     }
 
     @AfterSuite

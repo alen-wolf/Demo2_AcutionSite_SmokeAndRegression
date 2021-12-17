@@ -47,7 +47,11 @@ public class LogInPage extends PageObject{
     public void logOutUser(){this.logOut.click();}
 
     public void fillInlogInForm(String email, String password){
-        this.emailInput.sendKeys(email+"@mail.com");
+        this.emailInput.sendKeys(email);
         this.passwordInput.sendKeys(password);
+    }
+
+    public boolean loginFormDisplay(){
+        return this.emailInput.isDisplayed() && this.passwordInput.isDisplayed() && this.logInButton.isDisplayed();
     }
 }

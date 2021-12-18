@@ -21,4 +21,9 @@
             <class name="com.abhauction.testplans.regression.ShopCatalogTests"/>
         </classes>
     </test>
+    <test verbose="2" preserve-order="true" name="itemInspection">
+        <classes>
+            <class name="com.abhauction.testplans.regression.ItemInspectionTests"/>
+        </classes>
+    </test>
 </suite>

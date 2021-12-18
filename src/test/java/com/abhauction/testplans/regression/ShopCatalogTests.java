@@ -121,14 +121,29 @@ public class ShopCatalogTests {
         Assert.assertTrue(shopPage.checkPriceLow(),StringResources.sortingError("price low-high!"));
     }
 
-//    //Slider methods
-//    @Test(testName = "Price Slider maximum")
-//    public static void sliderMaxInput() throws InterruptedException, AWTException {
-//        Assert.assertTrue(homePage.homepageDisplay(), StringResources.error404("Homepage"));
-//        homePage.goToShopPage();
-//        Thread.sleep(2000);
-//        shopPage.moveSliderMaximumAmount();
-//    }
+    //Slider methods
+    @Test(testName = "Price Slider maximum")
+    public static void sliderMaxInput() throws InterruptedException, AWTException {
+        Assert.assertTrue(homePage.homepageDisplay(), StringResources.error404("Homepage"));
+        homePage.goToShopPage();
+        Thread.sleep(1000);
+        shopPage.moveSliderMaximumAmount();
+        Thread.sleep(1000);
+        Assert.assertEquals(shopPage.getMinimumPrice(),"$250",StringResources.formInput("Min price Box!"));
+        Assert.assertEquals(shopPage.getFilterPrice(),"$250-$250",StringResources.sortingError("Price range $250-$250 !"));
+    }
+
+    @Test(testName = "Price Slider minimum")
+    public static void sliderMinInput() throws InterruptedException, AWTException {
+        Assert.assertTrue(homePage.homepageDisplay(), StringResources.error404("Homepage"));
+        homePage.goToShopPage();
+        Thread.sleep(1000);
+        shopPage.moveSliderMinimumAmount();
+        Thread.sleep(1000);
+        Assert.assertEquals(shopPage.getMaximumPrice(),"$20",StringResources.formInput("Max price Box!"));
+        Assert.assertEquals(shopPage.getFilterPrice(),"$20-$20",StringResources.sortingError("Price range $250-$250 !"));
+    }
+
 
     @AfterSuite
     public static void exit(){

@@ -38,11 +38,14 @@ public class ShopPage extends PageObject{
     @FindBy(css = "#root > div > div.product-list > div.active-filters > div:nth-child(3) > h2")
     private WebElement getSportswearFilterList;
 
-    @FindBy(className = "thumb--zindex-3")
-    public WebElement thumbLeft;
+    @FindBy(css = "#root > div > div.filters-and-categories > div.price-filter > input:nth-child(2)")
+    private WebElement priceMinimumBox;
 
-    @FindBy(css = "#root > div > div.filters-and-categories > div.price-filter > input.thumb.thumb--zindex-4.xh-highlight")
-    private WebElement thumbRight;
+    @FindBy(css = "#root > div > div.filters-and-categories > div.price-filter > input:nth-child(3)")
+    private WebElement priceMaximumBox;
+
+    @FindBy(css = "#root > div > div.product-list > div.active-filters > div > h2")
+    private WebElement priceRangeFilterList;
 
     @FindBy(css = "#root > div > div.product-list > div.sort-and-view-select > div.sorting-selector > select")
     private WebElement sortByFilter;
@@ -60,7 +63,10 @@ public class ShopPage extends PageObject{
     private WebElement femaleSportswearSubcategoryList;
 
     @FindBy(className = "item-card")
-    public List<WebElement> catalog;
+    private List<WebElement> catalog;
+
+    @FindBy(css = "#root > div > div.item-main > div.item-images > div")
+    private WebElement imgGallery;
 
     public ShopPage(WebDriver driver) {
         super(driver);
@@ -88,6 +94,18 @@ public class ShopPage extends PageObject{
     public boolean femaleSportswearFilterDisplay(){return this.femaleSportswearSubcategoryList.isDisplayed();}
 
     public boolean searchBarBannerDisplay(){return !driver.findElements(By.className("search-result-banner")).isEmpty();}
+
+    public String getMinimumPrice(){return this.priceMinimumBox.getAttribute("value");}
+
+    public String getMaximumPrice(){return this.priceMaximumBox.getAttribute("value");}
+
+    public String getFilterPrice(){return this.priceRangeFilterList.getText();}
+
+    public void goToItemInspectionPageId(int id){
+        String allRoute = "//*[@id=\"root\"]/div/div[4]/div[3]/div[numb]/a/img";
+        String itemRoute = allRoute.replace("numb",Integer.toString(id+1));
+        this.catalog.get(id).findElement(By.xpath(itemRoute)).click();
+    }
 
     public void selectFilterHigh(){
         Select select = new Select(this.sortByFilter);
@@ -144,15 +162,38 @@ public class ShopPage extends PageObject{
 
     public void moveSliderMaximumAmount() throws AWTException, InterruptedException {
         Actions actions = new Actions(driver);
-        actions.moveToElement(this.thumbLeft).perform();
-        Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver,10);
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div[3]/div[2]/input[3]")));
-        element.click();
+        actions.moveByOffset(181,793).click().release().perform();
         Robot robot = new Robot();
-        for(int i=0; i<3; i++){
-            robot.keyPress(KeyEvent.VK_KP_LEFT);
-            Thread.sleep(1000);
+        for(int i=0; i<230; i++){
+            robot.keyPress(KeyEvent.VK_RIGHT);
+            Thread.sleep(500);
         }
+        actions.moveByOffset(238,0).click().release().perform();
+    }
+
+    public void moveSliderMinimumAmount() throws AWTException, InterruptedException {
+        Actions actions = new Actions(driver);
+        actions.moveByOffset(419,793).click().release().perform();
+        Robot robot = new Robot();
+        for(int i=0; i<230; i++){
+            robot.keyPress(KeyEvent.VK_LEFT);
+            Thread.sleep(500);
+        }
+        actions.moveByOffset(-238,0).click().release().perform();
+    }
+
+    public boolean checkGalleryForDuplicates() {
+        List<WebElement> gallery = imgGallery.findElements(new By.ByTagName("img"));
+        for(int i=0; i < gallery.size()-1; i++){
+            String img = gallery.get(i).getAttribute("src");
+            for (int j=0; j<gallery.size(); j++){
+                if(j > i){
+                    String imgCompared = gallery.get(j).getAttribute("src");
+                    if(img.equals(imgCompared))
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 }

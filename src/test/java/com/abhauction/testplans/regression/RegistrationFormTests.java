@@ -3,16 +3,12 @@ package com.abhauction.testplans.regression;
 import com.abhauction.pageobjects.HomePage;
 import com.abhauction.pageobjects.RegistrationPage;
 import com.abhauction.utilities.StringResources;
-import com.abhauction.utilities.UserAccounts;
 import com.abhauction.utilities.Utils;
-import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 public class RegistrationFormTests {
@@ -21,10 +17,6 @@ public class RegistrationFormTests {
     //initializing Page Objects
     public static HomePage homePage = new HomePage(driver);
     public static RegistrationPage registrationPage = new RegistrationPage(driver);
-
-    //create new user
-    public static UserAccounts testUser = new UserAccounts(StringResources.randomEmail());
-
 
     @BeforeSuite
     public static void main(String[] args) {
@@ -40,43 +32,49 @@ public class RegistrationFormTests {
 
     @Test(testName = "Empty Input form submission")
     public static void emptyInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToAccountCreation();
+        Assert.assertTrue(registrationPage.registrationFormDisplay(),StringResources.error404("Registration form"));
         registrationPage.registerUser();
-        Assert.assertTrue(registrationPage.getPageTitle(), StringResources.error404("Registration title"));
+        Assert.assertTrue(registrationPage.getPageTitle(), StringResources.error404("Registration page"));
     }
 
     @Test(testName = "Valid Input form submission")
     public static void validInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToAccountCreation();
+        Assert.assertTrue(registrationPage.registrationFormDisplay(),StringResources.error404("Registration form"));
+        registrationPage.fillInRegistrationform(StringResources.validName,StringResources.validName,StringResources.randomUserEmail(),StringResources.standardPass);
         registrationPage.registerUser();
-        registrationPage.fillInRegistrationform(testUser.getFirstName(),testUser.getLastName(),testUser.getEmailAndPassword(),testUser.getEmailAndPassword());
-        registrationPage.registerUser();
-        Assert.assertTrue(registrationPage.userIsRegistered(), StringResources.error404("Successful registration"));
+        Assert.assertTrue(registrationPage.userIsRegistered(), StringResources.error404("User registered"));
     }
 
     @Test(testName = "Invalid name input form submission")
     public static void invalidNameInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToAccountCreation();
-        registrationPage.registerUser();
-        registrationPage.fillInRegistrationform("123&*#A","V122*",testUser.getEmailAndPassword(),testUser.getEmailAndPassword());
+        Assert.assertTrue(registrationPage.registrationFormDisplay(),StringResources.error404("Registration form"));
+        registrationPage.fillInRegistrationform(StringResources.invalidName,StringResources.invalidName,StringResources.randomUserEmail(),StringResources.standardPass);
         registrationPage.registerUser();
         Assert.assertFalse(registrationPage.userIsRegistered(), StringResources.formInput("registered invalid name!"));
     }
 
     @Test(testName = "Invalid email input form submission")
     public static void invalidEmailInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToAccountCreation();
-        registrationPage.registerUser();
-        registrationPage.fillInRegistrationform("Alenn","Vukk*",testUser.getEmailAndPassword()+"#_",testUser.getEmailAndPassword());
+        Assert.assertTrue(registrationPage.registrationFormDisplay(),StringResources.error404("Registration form"));
+        registrationPage.fillInRegistrationform(StringResources.validName,StringResources.validName,StringResources.invalidEmail,StringResources.standardPass);
         registrationPage.registerUser();
         Assert.assertFalse(registrationPage.userIsRegistered(), StringResources.formInput("registered invalid email!"));
     }
 
     @Test(testName = "Register existing user")
     public static void existingUserInput() {
+        Assert.assertTrue(homePage.homepageDisplay(),StringResources.error404("Homepage"));
         homePage.goToAccountCreation();
-        registrationPage.registerUser();
-        registrationPage.fillInRegistrationform("Alenn","Vukk*","alenn",testUser.getEmailAndPassword());
+        Assert.assertTrue(registrationPage.registrationFormDisplay(),StringResources.error404("Registration form"));
+        registrationPage.fillInRegistrationform(StringResources.validName,StringResources.validName,StringResources.existingEmail,StringResources.standardPass);
         registrationPage.registerUser();
         Assert.assertTrue(registrationPage.userFailedToRegister(), StringResources.formInput("registered existing user!"));
     }

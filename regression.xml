@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="logInForm">
+        <classes>
+            <class name="com.abhauction.testplans.regression.LogInFormTests"/>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true" name="registrationForm">
+        <classes>
+            <class name="com.abhauction.testplans.regression.RegistrationFormTests"/>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true" name="pageInfo">
+        <classes>
+            <class name="com.abhauction.testplans.regression.PageInfoSitesTests"/>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true" name="shopCatalog">
+        <classes>
+            <class name="com.abhauction.testplans.regression.ShopCatalogTests"/>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true" name="itemInspection">
+        <classes>
+            <class name="com.abhauction.testplans.regression.ItemInspectionTests"/>
+        </classes>
+    </test>
+</suite>

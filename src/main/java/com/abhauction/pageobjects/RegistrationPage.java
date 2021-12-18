@@ -42,11 +42,15 @@ public class RegistrationPage extends PageObject{
     public void fillInRegistrationform(String name, String lastName, String email, String password){
         this.nameInput.sendKeys(name);
         this.lastNameInput.sendKeys(lastName);
-        this.emailInput.sendKeys(email+"@mail.com");
+        this.emailInput.sendKeys(email);
         this.passwordInput.sendKeys(password);
     }
 
     public boolean userIsRegistered(){return this.successfulRegistration.isDisplayed();}
 
     public boolean userFailedToRegister(){return this.failedToRegister.isDisplayed();}
+
+    public boolean registrationFormDisplay(){
+        return this.lastNameInput.isDisplayed() && this.nameInput.isDisplayed() && this.emailInput.isDisplayed() && this.passwordInput.isDisplayed() && this.registerButton.isDisplayed();
+    }
 }

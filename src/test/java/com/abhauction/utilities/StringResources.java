@@ -39,7 +39,7 @@ public class StringResources {
     }
 
     //User info
-
+    public static String randomMailStatic = randomEmail()+"@mail.com";
     public static String validName = "alenn";
     public static String invalidName = "w1#';qq";
     public static String existingEmail = "alenn@mail.com";

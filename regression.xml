@@ -26,4 +26,14 @@
             <class name="com.abhauction.testplans.regression.ItemInspectionTests"/>
         </classes>
     </test>
+    <test verbose="2" preserve-order="true" parallel="classes" name="all">
+        <classes>
+            <class name="com.abhauction.testplans.regression.RegistrationFormTests"/>
+            <class name="com.abhauction.testplans.regression.LogInFormTests"/>
+            <class name="com.abhauction.testplans.regression.ItemInspectionTests"/>
+            <class name="com.abhauction.testplans.regression.PageInfoSitesTests"/>
+            <class name="com.abhauction.testplans.regression.ShopCatalogTests"/>
+            <class name="com.abhauction.testplans.regression.ItemInspectionTests"/>
+        </classes>
+    </test>
 </suite>

@@ -67,6 +67,7 @@ public class ItemInspectionTests {
             int numberOfBids = itemInspectionPage.getNumberOfBids();
             int currentHighest = itemInspectionPage.getHighestBid();
             itemInspectionPage.placeValidBid();
+            Thread.sleep(1000);
             Assert.assertTrue(numberOfBids < itemInspectionPage.getNumberOfBids(),StringResources.formInput("Number of bids!"));
             Assert.assertTrue(currentHighest < itemInspectionPage.getHighestBid(),StringResources.formInput("Highest bid!"));
             homePage.goToShopPage();

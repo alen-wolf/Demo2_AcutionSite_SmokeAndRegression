@@ -107,6 +107,12 @@ public class ShopPage extends PageObject{
         this.catalog.get(id).findElement(By.xpath(itemRoute)).click();
     }
 
+    public void goToItemSearchPageId(int id){
+        String allRoute = "/html/body/div[1]/div/div[5]/div[3]/div[numb]/a/img";
+        String itemRoute = allRoute.replace("numb",Integer.toString(id+1));
+        this.catalog.get(id).findElement(By.xpath(itemRoute)).click();
+    }
+
     public void selectFilterHigh(){
         Select select = new Select(this.sortByFilter);
         select.selectByIndex(3);

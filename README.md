@@ -35,7 +35,7 @@ groupName depens on your test.xml:
         d) itemInspection
         e) all (care as this one runs all the tests in multiple drivers at once, and is really heavy on processing power and ram usage)
        
-   2.For smoke.xml:
-      a)smoke
-      b)smokeHeadless
+     2.For smoke.xml:
+        a)smoke
+        b)smokeHeadless
     

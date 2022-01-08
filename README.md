@@ -1,15 +1,16 @@
 # Demo2_AcutionSite_SmokeAndRegression
 
-This app was designed to test all the implemented features of the https://abh-auction.herokuapp.com/ app that was made for the AtlantBh Internship
+- This app was designed to test all the implemented features of the https://abh-auction.herokuapp.com/ app that was made for the AtlantBh Internship
 
-The chromedriver is specifically for windows. For linux users you will have to download the official chrome driver for linux here: https://chromedriver.chromium.org/downloads
+- The chromedriver is specifically for windows. For linux users you will have to download the official chrome driver for linux here: https://chromedriver.chromium.org/downloads
 Make sure the version is the same as your chrome desktop app
 
-In order to run the tests you will need to have the following installed:
-Maven, JDK 8
+- In order to run the tests you will need to have the following installed: Maven, JDK 8
 
-Maven and JDK 8 have to be configured in the PATH directory and a MAVEN_HOME and JAVA_HOME system variable applied that link to the folder containing their respective bin folders
-If you encounter an error such as: YOU MUST BE USING JRE > JDK. Than you need to move the JDK location path in the PATH directory before the oracle/JRE one.
+- Maven and JDK 8 have to be configured in the PATH directory and a MAVEN_HOME and JAVA_HOME system variable applied that link to the folder containing their respective bin folders
+- If you encounter an error such as: YOU MUST BE USING JRE > JDK. Than you need to move the JDK location path in the PATH directory before the oracle/JRE one.
+
+# Run Commands:
 
 Following commands work both in linux and windows if all the criteria above has been met:
 
